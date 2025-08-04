@@ -7,11 +7,11 @@ export default defineConfig({
   plugins: [react(),
   VitePWA({
     registerType: 'autoUpdate',
-    includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+    includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
     manifest: {
-      name: 'My React App',
-      short_name: 'ReactApp',
-      description: 'A sample React application with PWA support',
+      name: 'Calculator App',
+      short_name: 'Calculator',
+      description: 'A simple calculator app built with React and Vite',
       theme_color: '#ffffff',
     }
   })
