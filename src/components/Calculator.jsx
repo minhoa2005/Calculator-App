@@ -1,14 +1,14 @@
 import { Backspace } from "@mui/icons-material";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import { calculate } from "../logic/logic";
 
 const Calculator = () => {
 
-    const [result, setResult] = useState(0);
+    const [result, setResult] = useState();
     const [history, setHistory] = useState([]);
-    //
     const [expression, setExpression] = useState("");
-    const [currentInput, setCurrentInput] = useState("0");
+    const [currentInput, setCurrentInput] = useState("");
     const getButton = () => {
         const buttons = [];
         for (let i = 0; i < 10; i++) {
@@ -23,38 +23,59 @@ const Calculator = () => {
     //neu nhan vao nut =, cap nhat ket qua
     const handleButtonClick = (value) => {
         setCurrentInput((prev) => {
-            if (prev === "0") {
-                return value;
+            let newInput = prev;
+            if (prev.length === 0 || prev === "0" || !isNaN(value)) {
+                if (value === '=') {
+                    return prev;
+                }
+                else if (value === '+' || value === '×' || value === '÷') {
+                    setExpression(value);
+                    newInput = "0" + value;
+                } else {
+                    newInput = prev + value;
+                }
             }
-            return prev + value;
+            else if (['+', '×', '÷', '-'].includes(value)) {
+                setExpression(value);
+                if (prev.endsWith('+') || prev.endsWith('×') || prev.endsWith('÷') || prev.endsWith('-')) {
+                    newInput = prev.slice(0, prev.length - 1) + value;
+                } else {
+                    newInput = prev + value;
+                }
+            } else {
+                newInput = prev + value;
+            }
+            if (expression && newInput.includes(expression)) {
+                const res = calculate(newInput, result, expression);
+                setResult(res);
+            }
+            console.log(result)
+            return newInput;
         });
+
     }
     const handleDelete = () => {
         if (currentInput.length === 0) {
             return;
         } else {
+            if (currentInput.endsWith('+') || currentInput.endsWith('-') || currentInput.endsWith('×') || currentInput.endsWith('÷')) {
+                setExpression('');
+            }
             setCurrentInput((prev) => prev.slice(0, prev.length - 1));
         }
     }
     return (
         <Box sx={{ display: 'flex', gap: 4, p: 4 }}>
             <Box>
-                <TextField className="w-full text" variant="outlined" disabled={true} sx={{
-                    '& .MuiOutlinedInput-notchedOutline': {
-                        border: 'none',
-                    },
-                    '& .MuiOutlinedInput-input': {
-                        height: 100,
-                        padding: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        fontSize: '3rem',
-                        fontWeight: 'bold',
-                        textAlign: 'right',
-                    },
-                }}
-                    value={currentInput || "0"}
-                />
+                <Typography align="right" fontSize={result ? 30 : 64} fontWeight={'bold'} color={result ? "textDisabled" : ''}>
+                    {currentInput || '0'}
+                </Typography>
+                {!isNaN(result) && (
+                    <Typography align="right" fontSize={64} fontWeight={'bold'}>
+                        {result || '0'}
+                    </Typography>
+                )}
+                { }
                 <br />
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, marginTop: 2 }}>
                     {getButton().map((button, index) => (
@@ -65,7 +86,9 @@ const Calculator = () => {
                             fontWeight: 'bold',
                         }}
                             value={button}
-                            onClick={(e) => { handleButtonClick(e.target.value) }}
+                            onClick={(e) => {
+                                handleButtonClick(e.target.value);
+                            }}
                         >
                             {button}
                         </Button>
@@ -87,7 +110,7 @@ const Calculator = () => {
                     History
                 </Typography>
             </Box>
-        </Box>
+        </Box >
     )
 }
 
