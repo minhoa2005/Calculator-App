@@ -49,19 +49,23 @@ const Calculator = () => {
                 const res = calculate(newInput, result, expression);
                 setResult(res);
             }
-            console.log(result)
             return newInput;
         });
 
     }
     const handleDelete = () => {
-        if (currentInput.length === 0) {
-            return;
-        } else {
+        setCurrentInput((prev) => {
+            const newInput = prev.slice(0, prev.length - 1);
             if (currentInput.endsWith('+') || currentInput.endsWith('-') || currentInput.endsWith('×') || currentInput.endsWith('÷')) {
+                const res = calculate(currentInput, NaN, expression);
+                setResult(res);
                 setExpression('');
             }
-            setCurrentInput((prev) => prev.slice(0, prev.length - 1));
+            return newInput;
+        });
+        if (currentInput.length <= 1) {
+            setResult();
+            return;
         }
     }
     return (

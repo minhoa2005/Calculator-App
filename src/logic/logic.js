@@ -9,7 +9,12 @@ export const calculate = (num, oldResult, expression) => {
         }
     }
     else {
-        return parseInt(splitted[0]) + parseInt(splitted[1]);
+        if (isNaN(parseInt(splitted[1]))) {
+            return parseInt(splitted[0]);
+        }
+        else {
+            return parseInt(splitted[0]) + parseInt(splitted[1]);
+        }
     }
 
 }
