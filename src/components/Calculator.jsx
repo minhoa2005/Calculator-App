@@ -61,6 +61,10 @@ const Calculator = () => {
                 setResult(res);
                 setExpression('');
             }
+            else {
+                const res = calculate(newInput, NaN, expression);
+                setResult(res);
+            }
             return newInput;
         });
         if (currentInput.length <= 1) {
