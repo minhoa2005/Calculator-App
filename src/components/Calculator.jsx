@@ -56,8 +56,8 @@ const Calculator = () => {
     const handleDelete = () => {
         setCurrentInput((prev) => {
             const newInput = prev.slice(0, prev.length - 1);
-            if (currentInput.endsWith('+') || currentInput.endsWith('-') || currentInput.endsWith('×') || currentInput.endsWith('÷')) {
-                const res = calculate(currentInput, NaN, expression);
+            if (newInput.endsWith('+') || newInput.endsWith('-') || newInput.endsWith('×') || newInput.endsWith('÷')) {
+                const res = calculate(newInput, NaN, expression);
                 setResult(res);
                 setExpression('');
             }
