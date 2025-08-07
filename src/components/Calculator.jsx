@@ -1,7 +1,7 @@
 import { Backspace } from "@mui/icons-material";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { calculate } from "../logic/logic";
+import evaluate from "../logic/logic";
 
 const Calculator = () => {
 
@@ -17,10 +17,14 @@ const Calculator = () => {
         buttons.push('+', '-', '×', '÷', '=');
         return buttons;
     }
-    //su dung split de tach cac ky tu trong chuoi, split(expression), xong do se tinh toan 2 so va dua ra ket qua
+    //1. su dung split de tach cac ky tu trong chuoi, split(expression), xong do se tinh toan 2 so va dua ra ket qua
     //cac ky tu nguoi dung nhap se luu vao currentInput, mot khi nhan vao mot nut, currentInput se duoc cap nhat
     //kiem tra xem currentInput co chua ky tu nao khong, neu co thi se thuc hien tinh toan, khong thi se cap nhat currentInput
-    //neu nhan vao nut =, cap nhat ket qua
+    //neu nhan vao nut =, cap nhat ket qua ()
+
+
+    //2. kiem tra xem value co phai la 1 dau khong, neu khong phai thi xe tinh toan lai voi so moi nhap vao. Neu la mot dau thi
+    // se lau result de tinh toan.
     const handleButtonClick = (value) => {
         setCurrentInput((prev) => {
             let newInput = prev;
@@ -44,11 +48,10 @@ const Calculator = () => {
                 }
             } else {
                 newInput = prev + value;
+
             }
-            if (expression && newInput.includes(expression)) {
-                const res = calculate(newInput, result, expression);
-                setResult(res);
-            }
+            const result = evaluate.calculate(newInput);
+            setResult(result);
             return newInput;
         });
 
@@ -57,12 +60,11 @@ const Calculator = () => {
         setCurrentInput((prev) => {
             const newInput = prev.slice(0, prev.length - 1);
             if (newInput.endsWith('+') || newInput.endsWith('-') || newInput.endsWith('×') || newInput.endsWith('÷')) {
-                const res = calculate(newInput, NaN, expression);
-                setResult(res);
+
                 setExpression('');
             }
             else {
-                const res = calculate(newInput, NaN, expression);
+                const res = evaluate.calculate(newInput, expression);
                 setResult(res);
             }
             return newInput;
