@@ -5,7 +5,7 @@ import evaluate from "../logic/logic";
 
 const Calculator = () => {
 
-    const [result, setResult] = useState();
+    const [result, setResult] = useState("");
     const [history, setHistory] = useState([]);
     const [expression, setExpression] = useState("");
     const [currentInput, setCurrentInput] = useState("");
@@ -80,7 +80,7 @@ const Calculator = () => {
                 <Typography align="right" fontSize={result ? 30 : 64} fontWeight={'bold'} color={result ? "textDisabled" : ''}>
                     {currentInput || '0'}
                 </Typography>
-                {!isNaN(result) && (
+                {result && (
                     <Typography align="right" fontSize={64} fontWeight={'bold'}>
                         {result || '0'}
                     </Typography>

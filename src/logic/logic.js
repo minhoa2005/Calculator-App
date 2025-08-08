@@ -5,6 +5,7 @@
 // replace 3 index do bang result
 
 //3. dung loop de tinh toan neu gap expr thi se tinh toan luon (do cach tren gap van de ve quy tac tinh toan: tu trai qua phai)
+// chay vong lap, tim kiem cac dau 
 
 const evaluate = {
     _parser: (str) => {
