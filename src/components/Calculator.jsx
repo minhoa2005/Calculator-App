@@ -50,8 +50,11 @@ const Calculator = () => {
                 newInput = prev + value;
 
             }
-            const result = evaluate.calculate(newInput);
-            setResult(result);
+            if (!newInput.endsWith('+') && !newInput.endsWith('×') && !newInput.endsWith('÷') && !newInput.endsWith('-')) {
+                const result = evaluate.calculate(newInput);
+                setResult(result);
+            }
+            console.log(result)
             return newInput;
         });
 
@@ -80,7 +83,7 @@ const Calculator = () => {
                 <Typography align="right" fontSize={result ? 30 : 64} fontWeight={'bold'} color={result ? "textDisabled" : ''}>
                     {currentInput || '0'}
                 </Typography>
-                {result && (
+                {(result && !result.includes('NaN')) && (
                     <Typography align="right" fontSize={64} fontWeight={'bold'}>
                         {result || '0'}
                     </Typography>

@@ -9,7 +9,7 @@
 
 const evaluate = {
     _parser: (str) => {
-        const result = str.split(/([+-×÷])/).filter(Boolean);
+        const result = str.split(/([+\-×÷])/).filter(Boolean);
         if (result[0] === '-') {
             result.splice(0, 2, result[0] + result[1]);
         }
@@ -18,16 +18,16 @@ const evaluate = {
 
     _findX: (arr, index) => {
 
-        const a = parseInt(arr[index - 1]);
-        const b = parseInt(arr[index + 1]);
+        const a = parseFloat(arr[index - 1]);
+        const b = parseFloat(arr[index + 1]);
         arr.splice(index - 1, 3, a * b);
         return arr;
     },
 
     _findD: (arr, index) => {
 
-        const a = parseInt(arr[index - 1]);
-        const b = parseInt(arr[index + 1]);
+        const a = parseFloat(arr[index - 1]);
+        const b = parseFloat(arr[index + 1]);
         if (b === 0) {
             return 'Cannot divided by zero';
         }
@@ -37,47 +37,56 @@ const evaluate = {
 
     _findS: (arr, index) => {
 
-        const a = parseInt(arr[index - 1]);
-        const b = parseInt(arr[index + 1]);
+        const a = parseFloat(arr[index - 1]);
+        const b = parseFloat(arr[index + 1]);
         arr.splice(index - 1, 3, a + b);
         return arr;
     },
 
     _findM: (arr, index) => {
 
-        const a = parseInt(arr[index - 1]);
-        const b = parseInt(arr[index + 1]);
+        const a = parseFloat(arr[index - 1]);
+        const b = parseFloat(arr[index + 1]);
         arr.splice(index - 1, 3, a - b);
         return arr;
     },
 
     calculate: (str) => {
+        // console.log('String', str)
         let arr = evaluate._parser(str);
+        // console.log('Arr', arr)
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] === '×') {
                 arr = evaluate._findX(arr, i);
                 i = 0;
-                console.log(arr);
+                // console.log(arr);
             }
             else if (arr[i] === '÷') {
                 arr = evaluate._findD(arr, i);
                 i = 0;
-                console.log(arr);
+                // console.log(arr);
             }
         }
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] === '+') {
                 arr = evaluate._findS(arr, i);
                 i = 0;
-                console.log(arr);
+                // console.log(arr);
             }
             else if (arr[i] === '-') {
                 arr = evaluate._findM(arr, i);
                 i = 0;
-                console.log(arr);
+                // console.log(arr);
             }
         }
-        return arr[0];
+        console.log(arr);
+        if (typeof arr === 'string') {
+            return arr;
+        }
+        if (!arr || arr.length === 0 || arr[0] === undefined) {
+            return '';
+        }
+        return arr[0].toString();
     }
 
 }
