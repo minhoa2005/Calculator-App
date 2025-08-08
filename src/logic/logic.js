@@ -77,7 +77,7 @@ const evaluate = {
                 console.log(arr);
             }
         }
-        return arr;
+        return arr[0];
     }
 
 }
