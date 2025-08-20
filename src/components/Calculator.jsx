@@ -46,7 +46,11 @@ const Calculator = () => {
                 } else {
                     newInput = prev + value;
                 }
-            } else {
+            }
+            else if (value === '=') {
+                return result;
+            }
+            else {
                 newInput = prev + value;
 
             }
