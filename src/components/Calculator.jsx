@@ -6,7 +6,7 @@ import evaluate from "../logic/logic";
 const Calculator = () => {
 
     const [result, setResult] = useState("");
-    const [history, setHistory] = useState([]);
+    // const [history, setHistory] = useState([]);
     const [expression, setExpression] = useState("");
     const [currentInput, setCurrentInput] = useState("");
     const getButton = () => {
