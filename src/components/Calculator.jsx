@@ -2,11 +2,12 @@ import { Backspace } from "@mui/icons-material";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import evaluate from "../logic/logic";
+import History from "./History";
 
 const Calculator = () => {
 
     const [result, setResult] = useState("");
-    // const [history, setHistory] = useState([]);
+    const [history, setHistory] = useState([]);
     const [expression, setExpression] = useState("");
     const [currentInput, setCurrentInput] = useState("");
     const getButton = () => {
@@ -48,11 +49,13 @@ const Calculator = () => {
                 }
             }
             else if (value === '=') {
+                console.log('equal')
+                setHistory((prev) => [...prev, { currentInput: newInput, result: result }]);
+                console.log(history)
                 return result;
             }
             else {
                 newInput = prev + value;
-
             }
             if (!newInput.endsWith('+') && !newInput.endsWith('×') && !newInput.endsWith('÷') && !newInput.endsWith('-')) {
                 const result = evaluate.calculate(newInput);
@@ -126,6 +129,7 @@ const Calculator = () => {
                 <Typography variant="h1" sx={{ fontSize: '2rem', fontWeight: 'bold', color: 'primary.main' }}>
                     History
                 </Typography>
+                <History history={history} />
             </Box>
         </Box >
     )
